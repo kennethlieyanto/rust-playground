@@ -1,10 +1,26 @@
-use crate::List::{Cons, Nil};
+use std::ops::Deref;
 
-enum List {
-    Cons(i32, List),
-    Nil,
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+fn hello(name: &str) {
+    println!("Hello, {name}!");
 }
 
 fn main() {
-    let list = Cons(1, Cons(2, Cons(3, Nil)));
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
 }
